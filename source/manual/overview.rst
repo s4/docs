@@ -23,7 +23,7 @@ Key Features
   A cluster management layer based on ZooKeeper re-routes events from a failed- to a other servers automatically. The state of the processing elements running on the failed server may be lost unless it is explicitly saved in a persistent store.
 
 **Elastic**
-  Computing load is automatically distributed on a hetreogeneus cluster to maximize resource utilization and adapt to the skewness of the data without operator intervention even in the presence of hardware failures.
+  Computing load is automatically distributed on a heterogeneous cluster to maximize resource utilization and adapt to the skewness of the data without operator intervention even in the presence of hardware failures.
 
 **Expandable**
   Applications can easily be written and deployed using a simple API. Many basic applications for stream processing are available and more are being written.
