@@ -117,7 +117,7 @@ If you get an exception, make sure you have the latest version of ``run_adapter.
 
 .. code-block:: bash
 
-  find ../s4_core/logs/s4_core -name "s4_core_*.log" -print -exec sh -c 'grep -i "count by" {} | tail -4' \;
+  find ../s4_core/logs/s4_core -name "s4_core_*.log" -print -exec sh -c 'grep -i "count by" {} | tail -4' \; 
 
 You should see something like the following::
 

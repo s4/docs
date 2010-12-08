@@ -1,12 +1,9 @@
 Getting Events into S4
 ======================
 
-Introduction
-------------
-
 The simplest S4 application receives an event and prints it to standard output. Such an application can be found in `examples <https://github.com/s4/examples/tree/master/speech01>`_. The *speech01* application defines a single Processing Element (PE) that listens to events and simply prints them as they arrive.
 
-A simple PE
+A Simple PE
 ------------
 
 Here's the meat of that PE:

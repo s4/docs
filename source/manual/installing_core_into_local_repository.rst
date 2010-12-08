@@ -3,7 +3,7 @@ Installing S4 core into your local maven repository
 
 There are two ways you can install the S4 core jar file into your local maven repository.
 
-#. [[Build S4 core]] yourself.
+#. :doc:`Build S4 core </tutorials/build_core>` yourself.
 #. Install the jar from your runnable image. Assuming the environmental variable ``IMAGE_BASE`` contains the base directory of your runnable image, so the following:
 
   * ``cd ${IMAGE_BASE}``
