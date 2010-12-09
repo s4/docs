@@ -12,6 +12,7 @@ S4 Documentation
    tutorials
    manual
    cookbook
+   api_documentation
    glossary
    
 Indices and tables
