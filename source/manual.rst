@@ -1,3 +1,5 @@
+.. index:: manual
+
 Manual
 ======
 .. Detailed information about the design of S4, and Javadocs

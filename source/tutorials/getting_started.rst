@@ -71,7 +71,7 @@ When running in red button mode (i.e., not using Zookeeper as a cluster manager)
     Process taken up by another process lockFile:/home/robbins/s4-0.1/s4_core/lock/s4_listenerLISTEN_PROCESS_1
     processAvailable:false
 
-To avoid this issue, make sure you always use kill with the default signal. If you are running the process in the foreground, ``CTRL-C`` also works fine.
+To avoid this issue, make sure you always use kill with the default signal. If you are running the process in the foreground, :kbd:`Control-c` also works fine.
 
 If you run into trouble with lock files:
    

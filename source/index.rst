@@ -9,13 +9,13 @@ S4 Documentation
 .. toctree::
    :maxdepth: 2
 
-   manual
    tutorials
+   manual
    cookbook
+   glossary
    
 Indices and tables
 ------------------
 
 * :ref:`genindex`
 * :ref:`search`
-

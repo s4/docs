@@ -1,7 +1,9 @@
+.. index:: application, example, speech01, SentenceReceiverPE
+
 Getting Events into S4
 ======================
 
-The simplest S4 application receives an event and prints it to standard output. Such an application can be found in `examples <https://github.com/s4/examples/tree/master/speech01>`_. The *speech01* application defines a single Processing Element (PE) that listens to events and simply prints them as they arrive.
+The simplest S4 application receives an event and prints it to standard output. Such an application can be found in `examples <https://github.com/s4/examples/tree/master/speech01>`_. The *speech01* application defines a single :term:`Processing Element` (PE) that listens to events and simply prints them as they arrive.
 
 A Simple PE
 ------------
@@ -50,7 +52,7 @@ Let's quickly describe a few things about this PE class:
   * ``output()`` is called every ``n`` events
   * ``output()`` is called on every ``n`` second boundary
 
-Here's the Spring configuration for that PE, found in ``src/main/resources/speech01_conf.xml``:
+Here's the Spring configuration for that PE, found in :file:`src/main/resources/speech01_conf.xml`:
 
 .. code-block:: xml
 
@@ -87,28 +89,27 @@ To make the step-by-step instructions usable in your environment, set the follow
 variable name    value
 ===============  =======================================================================================================================================================
 ``SOURCE_BASE``  the base directory in which you clone the `examples repository <https://github.com/s4/examples>`_
-``IMAGE_BASE``   the base directory of your runnable image (this would be ``${HOME}/s4image`` if you followed the steps in :doc:`/tutorials/getting_started`)
+``IMAGE_BASE``   the base directory of your runnable image (this would be :file:`${HOME}/s4image` if you followed the steps in :doc:`/tutorials/getting_started`)
 ===============  =======================================================================================================================================================
 
-To compile the *speech01* example (or any S4 application), you need the ``s4_core`` jar file in your local maven repository. See :doc:`/manual/installing_core_into_local_repository`.
+To compile the *speech01* example (or any S4 application), you need the ``s4_core`` jar file in your local maven repository. See :doc:`/manual/installing_core_locally`.
 
 Building and running the *speech01* example
 -------------------------------------------
 
 To run the *speech01* example, do the following:
 
-* If you haven't yet cloned the examples repository, do the following:
+1. If you haven't yet cloned the examples repository, do the following:
 
   * ``cd ${SOURCE_BASE}``
   * ``git clone https://github.com/s4/examples.git``
-
-* ``cd ${SOURCE_BASE}/examples/speech01``
-* Build (follow instructions in `README <https://github.com/s4/examples/blob/master/speech01/README.md>`_)
-* ``cd ${IMAGE_BASE}/s4_apps``
-* ``tar xzf ${SOURCE_BASE}/examples/speech01/target/speech01-*.tar.gz``
-* ``cd ../bin``
-* start S4: ``s4_start.sh &``
-* Pipe the first ten lines of a sample input file into the load generator:
+2. ``cd ${SOURCE_BASE}/examples/speech01``
+3. Build (follow instructions in `README <https://github.com/s4/examples/blob/master/speech01/README.md>`_)
+4. ``cd ${IMAGE_BASE}/s4_apps``
+5. ``tar xzf ${SOURCE_BASE}/examples/speech01/target/speech01-*.tar.gz``
+6. ``cd ../bin``
+7. start S4: ``s4_start.sh &``
+8. Pipe the first ten lines of a sample input file into the load generator:
 
 .. code-block:: bash
 

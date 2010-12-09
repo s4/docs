@@ -1,3 +1,5 @@
+.. index:: build, example, instructions
+
 Build Sample Application
 ========================
 

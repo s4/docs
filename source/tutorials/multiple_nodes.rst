@@ -1,3 +1,5 @@
+.. index:: multiple nodes
+
 Running S4 with Multiple Nodes
 ==============================
 

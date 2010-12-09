@@ -1,3 +1,5 @@
+.. index:: maven, core, installation
+
 Installing S4 core into your local maven repository
 ===================================================
 

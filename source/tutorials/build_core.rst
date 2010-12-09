@@ -1,3 +1,5 @@
+.. index:: build, core, instructions
+
 Build Core
 ==========
 
@@ -19,3 +21,4 @@ Build
 * ``cd ../core``
 * Build (follow instructions in `README <https://github.com/s4/core/blob/master/README.md>`_)
 * Locate the core tarball: ``ls -tl target/s4_core-*.tar.gz``
+

@@ -1,3 +1,5 @@
+.. index:: s4, overview
+
 What is S4?
 ===========
 
