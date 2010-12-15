@@ -114,7 +114,7 @@ To run the *speech01* example, do the following:
 .. code-block:: bash
 
   head -10 ${SOURCE_BASE}/examples/testinput/speeches.txt | \
-  generate_load.sh -x -r 2 -u ../s4_apps/speech01/lib/speech01-0.0.0.1.jar -
+  generate_load.sh -x -r 2 -u ../s4_apps/speech01/lib/speech01-*.jar -
   
 This command will emit events at roughly 2 events per second (as specified by ``-r 2``).
 

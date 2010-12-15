@@ -5,6 +5,8 @@ Running S4 with Multiple Nodes
 
 This document describes how to run an S4 cluster with more than one node. This document assumes you are running S4 in red button mode (i.e., running without a cluster manager like Zookeeper).
 
+This document also assumes that the IMAGE_BASE environment variable contains the location of your s4 runnable image. If you set up the runnable image according to :doc:`/tutorials/getting_started`, you would set the variable to ``${HOME}/s4image``.
+
 Quick cluster configuration overview
 ------------------------------------
 A cluster configuration file describes the nodes in an S4 node cluster, an adapter cluster, or both. The communication layer uses this configuration to assign tasks and find nodes.
@@ -64,7 +66,7 @@ Adding another S4 node
 
 Lets say you want to run two S4 nodes on your machine. First, create a new configuration directory:
 
-* ``cd <image_base>/s4_core/conf``
+* ``cd ${IMAGE_BASE}/s4_core/conf``
 * ``cp -r redbutton myconfig``
 
 Edit ``myconfig/clusters.xml`` and add a new S4 node: 
@@ -99,7 +101,7 @@ Since both nodes will run on the same machine (``localhost``), make sure the two
 
 Now run the sample application, this time using your new configuration:
 
-* ``cd <image_base>/bin``
+* ``cd ${IMAGE_BASE}/bin``
 * clean out your logs directory (to better demonstrate the example): ``rm -fr ../s4_core/logs/*``
 * Start the first S4 node and tell it to use your configuration: ``s4_start.sh myconfig &``
 * Start the second S4 node, also using your configuration: ``s4_start.sh myconfig &``
