@@ -1,3 +1,8 @@
 div.header img.rightlogo {
 	margin-top: 20px;
 }
+
+pre {
+	border: 1px dotted #ddd;
+	background-color: #f0f0f0;   
+}
