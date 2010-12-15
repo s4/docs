@@ -110,7 +110,7 @@ Now run the sample application, this time using your new configuration:
 
 .. code-block:: bash
 
-  run_adapter.sh -u ../s4_apps/twittertopiccount/lib/twittertopiccount-0.0.0.1.jar \
+  run_adapter.sh -u ../s4_apps/twittertopiccount/lib/twittertopiccount-*.jar \
   -d ../s4_apps/twittertopiccount/adapter_conf.xml myconfig &
 
 If you get an exception, make sure you have the latest version of ``run_adapter.sh``.
