@@ -18,5 +18,5 @@ Build
   * ``cd <source_base>``
   * ``git clone https://github.com/s4/examples.git``
 * ``cd examples/twittertopiccount``
-* Build (follow instructions in `README <https://github.com/s4/examples/blob/master/README.md>`_)
+* Build (follow instructions in `README <http://github.com/s4/examples/blob/master/twittertopiccount/README.md>`_)
 * Locate the sample application tarball: ``ls -tl target/twittertopiccount-*.tar.gz``
