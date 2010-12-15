@@ -56,7 +56,7 @@ The adapter will adapt Twitter status messages into events expected by the sampl
 
 .. code-block:: bash
 
-  ./run_adapter.sh -x -u ../s4_apps/twittertopiccount/lib/twittertopiccount-0.0.0.1.jar \
+  ./run_adapter.sh -x -u ../s4_apps/twittertopiccount/lib/twittertopiccount-*.jar \
    -d ../s4_apps/twittertopiccount/adapter_conf.xml &
 
 To check the current top 10 hash tags, look in this file: ``/tmp/top_n_hashtags``
