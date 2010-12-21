@@ -59,7 +59,7 @@ The adapter will adapt Twitter status messages into events expected by the sampl
   ./run_adapter.sh -x -u ../s4_apps/twittertopiccount/lib/twittertopiccount-*.jar \
    -d ../s4_apps/twittertopiccount/adapter_conf.xml &
 
-To check the current top 10 hash tags, look in this file: ``/tmp/top_n_hashtags``
+To check the current top 10 hash tags, look in this file: :file:`/tmp/top_n_hashtags`. Note, twittertopiccount will not include any hash tag that has less that 4 references. Therefore, it might take a few minutes for this file to appear.
 
 Troubleshooting
 ---------------
