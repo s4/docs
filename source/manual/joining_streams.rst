@@ -258,7 +258,7 @@ To run the *speech02* example, do the following:
   head -10 ${SOURCE_BASE}/examples/testinput/speeches.txt | \
   generate_load.sh -x -r 2 -u ../s4_apps/speech02/lib/speech01-0.0.0.1.jar -
 
-It is correct that the command refers to the *speech01* jar in the *speech02* application. *speech02* has no code of its own, just a configuration. It entirely depends on code from the platform and from *speech02*.
+It is correct that the command refers to the *speech01* jar in the *speech02* application. *speech02* has no code of its own, just a configuration. It entirely depends on code from the platform and from *speech01*.
   
 This command will emit events at roughly 2 events per second (as specified by ``-r 2``).
 
