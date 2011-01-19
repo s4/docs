@@ -10,5 +10,8 @@ Manual
    manual/overview
    manual/getting_events_into_s4
    manual/joining_streams
+   manual/dispatcher
+   manual/specifying_keys
+   manual/windowing
    Installing S4 core locally <manual/installing_core_locally>
 

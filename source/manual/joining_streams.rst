@@ -18,7 +18,41 @@ In the `speech02 example application <https://github.com/s4/examples/tree/master
 A note on speeches.txt
 ----------------------
 
-In :doc:`/manual/getting_events_into_s4`, you used :file:`speeches.txt` as input to the load generator. :file:`speeches.txt` contains a series of Speech, Sentence, and Highlight events that can be replayed using :file:`generate_load.sh`. The story of the contents is as follows:
+In :doc:`/manual/getting_events_into_s4`, you used :file:`speeches.txt` as input to the load generator. :file:`speeches.txt` contains a series of Speech, Sentence, and Highlight events that can be replayed using :file:`generate_load.sh`. The events have these attributes:
+
+*Speech*
+
+==============    =======     ====================================================
+attribute name    type        notes
+==============    =======     ====================================================
+id                long        The id of the speech
+location          String      The original location where the speech was delivered
+speaker           String      The original deliverer of the speech
+time              long        The start time of the recitation of the speech
+==============    =======     ====================================================
+
+*Sentence*
+
+==============    =======     ====================================================
+attribute name    type        notes
+==============    =======     ====================================================
+id                long        The id of the sentence
+speechId          long        The id of the speech to which this sentence belongs
+time              long        The start time of the recitation of the sentence
+location          String      The original location where the associated speech was
+                              delivered (not set in :file:`speeches.txt`)
+==============    =======     ====================================================
+
+*Highlight*
+
+==============    =======     ====================================================
+attribute name    type        notes
+==============    =======     ====================================================
+sentenceId        long        The id of the sentence being highlighted
+time              long        The time at which the sentence was highlighted
+==============    =======     ====================================================
+
+The story of the events in :file:`speeches.txt` is as follows:
 
 * Anonymous actors read famous speeches out loud. Each actor chooses a speech and recites it. These recitations are captured live and the audio is streamed to listeners.
 * When the audio stream for a given speech starts, a ``Speech`` event is generated. The ``time`` field in the event indicates the time at which the audio for that speech began streaming, which is also roughly the time the event was generated.
@@ -174,19 +208,19 @@ Here's a typical flow for the sentenceJoinPE:
 #. 10 seconds later, a ``Sentence`` event for speech id 11 arrives on the Sentence stream.
 #. S4 locates the sentenceJoinPE instance for speech id 11.
 #. S4 calls the instance's processEvent() method.
-#. The PE instance stores the event in the slot for stream ``Sentence``. Because the all slots are full, the PE instance does the following:
+#. The PE instance stores the event in the slot for stream ``Sentence``. Because all slots are full, the PE instance does the following:
 
    #. Creates a new ``Sentence`` object.
    #. Copies all fields from the old ``Sentence`` event into the new ``Sentence`` event.
    #. Copies the ``location`` field from the ``Speech`` event into the new ``Sentence`` event.
    #. Emits the new ``Sentence`` event onto the SentenceJoined stream.
-9. 4 seconds later,  another ``Sentence`` event for speech id 11 arrives on the Sentence stream.
+9. Four seconds later,  another ``Sentence`` event for speech id 11 arrives on the Sentence stream.
 #. S4 locates the sentenceJoinPE instance for speech id 11.
 #. S4 calls the instance's processEvent() method.
 #. The PE instance replaces the existing event in the slot for stream Sentence with the newly arrived event. Because all slots are full, the PE instance repeats the above steps for emitting a new event.
 
 
-sentenceJoinPE's ``ttl`` property is set to 600 seconds (10 minutes). The framework will consider the PE instance for speech id *n* dead if that instance receives no events for 10 minutes. If an event for speech id *n* arrives after that 10 minute period of idleness, then a new instance for value *n* will be created with all slots reset. Therefore, a join succeeds only if the related events arrive within 10 minutes of each other.
+sentenceJoinPE's ``ttl`` property is set to 600 seconds (10 minutes). The framework will consider the PE instance for speech id *n* dead if that instance receives no events for 10 minutes. If an event for speech id *n* arrives after that 10-minute period of idleness, then a new instance for value *n* will be created with all slots reset. Therefore, a join succeeds only if the related events arrive within 10 minutes of each other.
 
 The sentenceJoinPE uses the configured dispatcher to dispatch the events to the appropriate nodes. The dispatcher is described in :doc:`dispatcher`.
 
