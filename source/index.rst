@@ -12,6 +12,7 @@ Home
    tutorials
    manual
    cookbook
+   examples
    api_documentation
    glossary
    
