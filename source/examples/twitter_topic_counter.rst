@@ -256,7 +256,8 @@ The Dispatcher
 
 The Dispatcher is configured as follows: 
 
-.. code-block:: scala
+.. code-block:: xml
+
   <bean id="topicSeenPartitioner" class="com.yahoo.s4.dispatcher.partitioner.DefaultPartitioner">
     <property name="streamNames">
       <list>
