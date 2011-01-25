@@ -9,12 +9,14 @@ In this example, we describe how to write a simple real world streaming example 
 
 We use everyone's favorite stream, Twitter (specifically, the `gardenhose <http://dev.twitter.com/pages/streaming_api_methods#statuses-sample>`_ stream), extract hash tags (those strings that start with #; we'll call them topics) from it, and generate the list of top 10 topics. 
 
-This example demonstrates using the Scala language, but the repository also has a `Java version <https://github.com/s4/examples/tree/master/twittertopiccount>`_. 
+Code for this example is at `https://github.com/s4/examples/tree/master/twittertopiccount_scala <https://github.com/s4/examples/tree/master/twittertopiccount_scala>`_
+
+This example displays snippets in the Scala language, but the repository also has a `Java version <https://github.com/s4/examples/tree/master/twittertopiccount>`_. 
 
 Application Design
 ------------------
 
-<Figure goes here>
+.. image:: /_static/twitter_example_app.png
 
 The Events
 ----------
@@ -62,6 +64,10 @@ The Processors (PEs)
 
 This application involves 3 PEs: ``TopicExtractorPE``, ``TopicCountAndReportPE`` and ``TopNTopicPE``
 
+**Figure**: Flow of events through PE's
+
+.. image:: /_static/twitter_example_pe.png
+  
 TopicExtractorPE
 ^^^^^^^^^^^^^^^^
 
@@ -183,7 +189,7 @@ TopNTopicPE
 **Input**
   Stream: ``AggregatedTopicSeen``, Key: ``reportKey``
 **Output**
-  Stream: ``AggregatedTopicSeen``
+  None
 
 TopNTopicPE listens to the ``AggregatedTopicSeen`` stream for ``Topic`` events keyed on ``reportKey``. At regular intervals, it selects the top N topics by count, converts them into a JSON string and hands them off to a persister. The persister used in this example simply writes the resulting JSON to a file on disk. 
 
@@ -210,7 +216,8 @@ TopNTopicPE listens to the ``AggregatedTopicSeen`` stream for ``Topic`` events k
   * In this example, ``TopNTopicPE`` is configured to output the top 10 topics (``entryCount``) once every 10 seconds (``outputFrequencyByTimeBoundary``).
   * ``dtfPersister`` refers to an implementation of a Persister which simply writes output to a file on disk. 
   * Since the only possible value of ``reportKey`` is ``1`` (this value is set in ``TopicCountAndReportPE``), all events on the ``AggregatedTopicSeen`` stream end up in a single instance of ``TopNTopicPE``. This done because it is convenient to have all the top topics in a single PE to compute the top N. This works for this toy application, but in real applications, this is not a scalable approach. One alternative is to use a layer of intermediate 'reducers' to handle larger streams. 
-
+  * This PE does not generate an output stream
+  
 **Implementation**
 
 .. code-block:: scala
@@ -249,7 +256,6 @@ TopNTopicPE listens to the ``AggregatedTopicSeen`` stream for ``Topic`` events k
 
   }
 
-**Notes**
 
 The Dispatcher
 --------------
@@ -306,3 +312,31 @@ The Dispatcher is configured as follows:
   
 Build and run
 -------------
+
+This assumes you have built and setup S4 in ``${IMAGE_DIR}`` as described in :doc:`/tutorials/getting_started`
+
+Set ``${APPNAME}`` to ``twittertopiccount_scala`` or ``twittertopiccount`` for Scala and Java versions respectively. 
+
+Build
+^^^^^
+
+.. code-block:: bash
+
+  cd ${SOURCE_DIR}
+  git clone https://github.com/s4/examples.git
+  cd examples/${APPNAME}
+  mvn assembly:assembly install
+
+Run
+^^^
+
+.. code-block:: bash
+
+  cd ${IMAGE_DIR}/s4_apps
+  tar xvzf ${SOURCE_DIR}/examples/${APPNAME}/target/${APPNAME}-*.jar
+  cd ${IMAGE_DIR}/bin
+  ./s4_start &
+  ./run_adapter.sh -x -u ../s4_apps/${APPNAME}/lib/*.jar \
+   -d ../s4_apps/${APPNAME}/adapter_conf.xml &
+
+Output will be produced in :file:`/tmp/top_n_hashtags`
