@@ -80,30 +80,30 @@ send and receive events.
 An instance of a client is expected to initialize exactly once, but may connect
 more than once (e.g. after disconnection due to a network failure).
 
-``initialization``
-""""""""""""""""""
+Initialization
+""""""""""""""
 1. Client connects on TCP/IP port and sends an empty byte array.
 2. Adapter responds with JSON-encoded map having fields ``uuid`` and
    ``protocol``. Example:
 
-.. code-block:: javascript
+   .. code-block:: javascript
 
-    {
-      "uuid": "a54277cb-46ff-4e8b-8580-d3ec8ba2fe1b",
-      "protocol": {
-                    "name":"generic-json",
-                    "versionMajor":1,
-                    "versionMinor":0
-                  }
-    }
+     {
+       "uuid": "a54277cb-46ff-4e8b-8580-d3ec8ba2fe1b",
+       "protocol": {
+                     "name":"generic-json",
+                     "versionMajor":1,
+                     "versionMinor":0
+                   }
+     }
 
 3. The server closes the TCP/IP connection.
 4. The client must verify that the protocol version is compatible. If it is
    compatible, initializatin is successful.
    
 
-``connection``
-""""""""""""""
+Connection
+""""""""""
 
 After successfully initializing, the client connects as follows:
 
@@ -128,39 +128,46 @@ After successfully initializing, the client connects as follows:
    
    Example:
 
-.. code-block:: javascript
+   .. code-block:: javascript
 
-    {
-      "uuid": "a54277cb-46ff-4e8b-8580-d3ec8ba2fe1b",
-      "readMode": "private",
-      "writeMode": "enabled"
-    }
+     {
+       "uuid": "a54277cb-46ff-4e8b-8580-d3ec8ba2fe1b",
+       "readMode": "private",
+       "writeMode": "enabled"
+     }
 
 
 2. The adapter validates this request.
 
    - If the adapter accepts the connection, it responds with a success message
+     and keeps the connection open:
 
-.. code-block:: javascript
+     .. code-block:: javascript
 
-       {
-         "status": "ok"
-       }
-.
-     and keeps the connection open.
+       { "status": "ok" }
+
 
    - If the adapter decides to decline the connection request, it responds with
      a JSON-encoded map with key ``status`` with value ``failed`` and an
      optional ``reason`` field with a reason string. It then closes the TCP/IP
      socket. Example:
 
-.. code-block:: javascript
+     .. code-block:: javascript
 
        {
          "status": "failed",
          "reason": "unknown readMode public"
        }
 
+
+Disconnecting
+^^^^^^^^^^^^^
+
+Write-enabed clients are expected to disconnect gracefully by sending an empty
+byte-array to the adapter. The adapter will react by closing the TCP/IP socket.
+
+Read-only clients (``writeMode: disabled``) can disconnect from the adapter by
+closing the TCP/IP socket.
 
 Sending Events into S4 Cluster
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
