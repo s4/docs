@@ -325,42 +325,51 @@ EventDispatcher Class                             Description
                                                   to all the member ``EventDispatcher``-s.
 ===============================================   ==============================================================================
 
-Now, to demonstrate with an example, consider a PE that emits events on 2
-streams: ``weatherStream`` and ``alertStream``. Furthermore, it wishes to send
-the ``weatherStream`` only to other PEs, but the ``alertStream`` to both PEs
-(within S4) and to clients (i.e.  the Client adapter). It could configure a
-dispatcher as follows.
+
+Example
+"""""""
+
+In ``speech02`` example application, suppose that the ``SentenceJoined`` stream
+has to be sent to the client adapters, in addition to being sent to the *event
+catcher*.
+
+We add a new dispatcher which can fork ``SentenceJoined`` events to two
+dispatchers: 
 
 .. code-block:: xml
 
   <!-- Fan out events -->
-  <bean id="multiDispatcher0" class="io.s4.dispatcher.MultiDispatcher">
+  <bean id="forkdispatcher" class="io.s4.dispatcher.MultiDispatcher">
     <property name="dispatchers">
       <list>
-        <ref bean="adapterDispatcher"/>
-        <ref bean="s4Dispatcher"/>
+
+        <!-- send everything through the standard S4 dispatcher -->
+        <ref bean="dispatcher"/>
+
+        <!-- send some streams to client adapters -->
+        <bean id="selectiveDispatchToAdapter" class="io.s4.dispatcher.StreamSelectingDispatcher">
+          <property name="dispatcher" ref="dispatcherToClientAdapters"/>
+          <property name="streams">
+            <list>
+              <value>SentenceJoined</value>
+            </list>
+          </property>
+        </bean>
+
       </list>
     </property>
   </bean>
 
-The adapter only needs events on the ``alertStrem`` stream. However, the events
-need to be sent to *every* adapter in the cluster since clients may connect to
-any one of them.
+Here, ``dispatcherToClientAdapters`` is configured to only dispatch events on
+the ``SentenceJoined`` stream. However, the events need to be sent to *every*
+adapter in the cluster since clients may connect to any one of them.
+
+The typical ``s4_conf.xml`` file includes a dispatcher to send events to all
+adapter nodes, using the ``BroadcastPartitioner``.
 
 .. code-block:: xml
-
-  <!-- Adapter needs only alertStream -->
-  <bean id="adapterDispatcher" class="io.s4.dispatcher.StreamSelectingDispatcher">
-    <property name="dispatcher" ref="dispatcherToAllAdapters"/>
-    <property name="streams">
-      <list>
-        <value>alertStream/value>
-      </list>
-    </property>
-  </bean>
-
   <!-- Dispatcher to send to all adapter nodes. -->
-  <bean id="dispatcherToAllAdapters" class="io.s4.dispatcher.Dispatcher" init-method="init">
+  <bean id="dispatcherToClientAdapters" class="io.s4.dispatcher.Dispatcher" init-method="init">
     <property name="partitioners">
       <list>
         <ref bean="broadcastPartitioner"/>
@@ -372,22 +381,6 @@ any one of them.
 
   <!-- Partitioner to achieve broadcast -->
   <bean id="broadcastPartitioner" class="io.s4.dispatcher.partitioner.BroadcastPartitioner"/>
-
-The dispatcher for S4 only needs all events, keyed on ZIP Code. Nothing new
-here. We configure this as:
-
-.. code-block:: xml
-
-  <!-- S4 cares about all streams, partitioned on ZIP Code -->
-  <bean id="s4Dispatcher" class="io.s4.dispatcher.Dispatcher">
-    <property name="partitioners">
-      <list>
-        <ref bean="zipCodePartitioner"/>
-      </list>
-    </property>
-    <property name="eventEmitter" ref="commLayerEmitter"/>
-    <property name="loggerName" value="s4"/>
-  </bean>
 
 
 Guidelines for Configuring a S4/Adapter Cluster
