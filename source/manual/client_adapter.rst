@@ -115,7 +115,17 @@ After successfully initializing, the client connects as follows:
    ``readMode`` *(optional)*
        Types of events that this client expects to receive. Values:
 
-         - ``all`` *(defailt)*: private events addressed to this client , and all public events
+         - ``all`` *(default)*: private events addressed to this client , and
+           all public events
+         - ``select``: all events from a certain subset of streams. This
+           selection is specified using one of the following additional keys:
+             * ``readInclude``: array of stream names that should be included.
+               All other stream names are excluded.
+             * ``readExclude``: array of stream names that should be excluded.
+               All other stream names are included.
+           One of these keys must be specified. Otherwise, the client's
+           connection attempt fails. Specifying both the keys is not explicitly
+           prohibited, but is considered bad form.
          - ``private``: only events addressed directly to this client
          - ``none``: no events
 
@@ -215,7 +225,7 @@ events to the client. Clients are expected to promptly read events from their
 TCP/IP sockets. Failure to do so may result in their connection being terminated
 by the adapter.
 
-Each event is a JSON-encoded map containing the following keys.
+Each event is a JSON-encoded map containing the following keys and values.
 
   ``stream``
       Name of stream on which the adapter received the event.
@@ -236,6 +246,10 @@ Example:
      "object":"{\"id\":24000086,\"speechId\":24000000,\"text\":\"What kind of logic is that?\",\"time\":1242801726000,\"location\":\"cleveland, oh, us\"}"}
    }
 
+Implementers of client libraries are encouraged to provide the following:
+- a *timed read* procedure that respect a timeout
+- a *batch read* procedure that returns all events that arrive within a
+  specified time interval.
 
 Data Transmission Format
 ------------------------
