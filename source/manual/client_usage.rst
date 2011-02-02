@@ -423,7 +423,7 @@ The input contains two queries. The two corresponding responses
   }
 
 The first response (request ``id`` 0) was sent to a PE, and that PE
-responded with its output class naem as requested. The second query (request
+responded with its output class name as requested. The second query (request
 ``id`` 1) was targeted at a joiner corresponding to the key value ``"*"``. No
 such PE exists, so an exception was thrown.
 

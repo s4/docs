@@ -247,6 +247,7 @@ Example:
    }
 
 Implementers of client libraries are encouraged to provide the following:
+
 - a *timed read* procedure that respect a timeout
 - a *batch read* procedure that returns all events that arrive within a
   specified time interval.
@@ -255,7 +256,14 @@ Data Transmission Format
 ------------------------
 
 Data transmission between the client and the adapter is in the form of byte
-arrays. Strings are first converted into an array of ``byte``-s.
+arrays. Strings are first converted into a `UTF-8
+<http://en.wikipedia.org/wiki/UTF-8>`_ encoded array of ``byte``-s:
+
+.. code-block:: java
+
+  byte[] encoded = s.getBytes(Charset.forName("UTF8"));
+
+  String decoded = new String(encoded, Charset.forName("UTF8"));
 
 A byte array, ``B``, is sent over a socket as follows:
 
@@ -265,6 +273,26 @@ A byte array, ``B``, is sent over a socket as follows:
         integer.
   ``content`` (B.length bytes)
         Bytes of B.
+
+
+For example: 
+
+.. code-block:: text
+
+    -------                       -------------DATA-------------
+    "s4.io" --- UTF-8 encode ---> {0x73, 0x34, 0x2e, 0x69, 0x6f}
+    -------                       -------------------+----------
+                                                     |
+                                                  length = 5
+         ---------LENGTH---------                    |
+         {0x00, 0x00, 0x00, 0x05} <--- Big-endian ---+
+         ------------------------                              
+
+
+  |---------------------- Transmission --------------------------->
+  +-----------LENGTH----------++---------------DATA---------------+
+  | 0x00 | 0x00 | 0x00 | 0x05 || 0x73 | 0x34 | 0x2e | 0x69 | 0x6f |
+  +---------------------------++----------------------------------+
 
 
 Configuration
