@@ -15,3 +15,5 @@ Manual
    manual/windowing
    Installing S4 core locally <manual/installing_core_locally>
 
+   manual/client_adapter
+   manual/client_usage
