@@ -303,9 +303,9 @@ Cluster Configuration
 
 The S4 and adapter clusters are defined in the ``clusters.xml`` file. Here, the
 two clusters are given names. Typically, the S4 compute cluster is called
-``s4`` and the adapter cluster is called ``adapter``. Every node in each cluster
-must have a partition id that is unique within the cluster and in the range [0,
-N-1] where N is the number of nodes in the cluster.
+``s4`` and the adapter cluster is called ``client-adapter``. Every node in each
+cluster must have a partition id that is unique within the cluster and in the
+range [0, N-1] where N is the number of nodes in the cluster.
 
 Adapter Configuration
 ^^^^^^^^^^^^^^^^^^^^^
@@ -336,9 +336,11 @@ follows in the S4 configuration.
   <bean id="commLayerEmitterToAdapter" class="io.s4.emitter.CommLayerEmitter" init-method="init">
     <property name="serDeser" ref="serDeser"/>
     <property name="listener" ref="rawListener"/>
-    <property name="listenerAppName" value="adapter"/>
+    <property name="listenerAppName" value="client-adapter"/>
     <property name="monitor" ref="monitor"/>
   </bean>
+
+Such an emitter is provided in the default S4 configuration file.
 
 S4 application developers compose PEs in their application configuration to
 perform computations and emit events. The destinations for the events may be
@@ -410,6 +412,7 @@ The typical ``s4_conf.xml`` file includes a dispatcher to send events to all
 adapter nodes, using the ``BroadcastPartitioner``.
 
 .. code-block:: xml
+
   <!-- Dispatcher to send to all adapter nodes. -->
   <bean id="dispatcherToClientAdapters" class="io.s4.dispatcher.Dispatcher" init-method="init">
     <property name="partitioners">
