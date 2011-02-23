@@ -268,7 +268,7 @@ Because the PE is key-less, there is at most one instance per S4 node:
 
 .. image:: /../_static/joinPEc.png
 
-
+.. _building_and_running_speech02:
 
 Building and running the *speech02* example
 -------------------------------------------
