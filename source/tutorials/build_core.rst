@@ -6,19 +6,17 @@ Build Core
 The steps in this guide have been tested on:
 
 * Red Hat Enterprise Linux 4
-* Ubuntu 10.10
+* Mac OSX 10.5
 
 Build
 -----
 
-* Clone ``comm`` and ``core`` to a source directory (``<source_base>``)
+* Clone ``s4``to a source directory (``<source_base>``)
 
   * ``cd <source_base>``
-  * ``git clone https://github.com/s4/core.git``
-  * ``git clone https://github.com/s4/comm.git``
-* ``cd comm``
-* Build (follow instructions in `README <https://github.com/s4/comm/blob/master/README.md>`_)
-* ``cd ../core``
-* Build (follow instructions in `README <https://github.com/s4/core/blob/master/README.md>`_)
-* Locate the core tarball: ``ls -tl target/s4_core-*.tar.gz``
+  * ``git clone https://github.com/s4/s4.git``
+* ``cd s4``
+* ``./gradlew allImage``
+* ``cd build/s4-image/``
+* ``export S4_IMAGE=`pwd```
 

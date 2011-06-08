@@ -34,7 +34,7 @@ Here's the meat of that PE:
 
 Let's quickly describe a few things about this PE class:
 
-* ``AbstractPE``: Most PEs extend ``AbstractPE``. ``AbstractPE`` has some useful features, including:
+* ``AbstractPE``: PEs must extend ``AbstractPE``. ``AbstractPE`` has some useful features, including:
 
   * a method for determining the value on which the PE instance is keyed
   * a method for finding the object within the event that contains the key (useful if the key resides in a List)
@@ -80,43 +80,28 @@ Key-less PEs usually serve as entry point PEs: That is, the PEs that receive eve
 
 More about keys in the discussion about :doc:`/manual/joining_streams`.
 
-Preparing to build the *speech01* example
------------------------------------------
-
-This section assumes you have set up your S4 runnable image as described in :doc:`/tutorials/getting_started`
-
-To make the step-by-step instructions usable in your environment, set the following environmental variables as:
-
-===============  =======================================================================================================================================================
-variable name    value
-===============  =======================================================================================================================================================
-``SOURCE_BASE``  the base directory in which you clone the `examples repository <https://github.com/s4/examples>`_
-``IMAGE_BASE``   the base directory of your runnable image (this would be :file:`${HOME}/s4image` if you followed the steps in :doc:`/tutorials/getting_started`)
-===============  =======================================================================================================================================================
-
-To compile the *speech01* example (or any S4 application), you need the ``s4_core`` jar file in your local maven repository. See :doc:`/manual/installing_core_locally`.
-
 Building and running the *speech01* example
 -------------------------------------------
 
 To run the *speech01* example, do the following:
 
-1. If you haven't yet cloned the examples repository, do the following:
-
-  * ``cd ${SOURCE_BASE}``
-  * ``git clone https://github.com/s4/examples.git``
-2. ``cd ${SOURCE_BASE}/examples/speech01``
-3. Build (follow instructions in `README <https://github.com/s4/examples/blob/master/speech01/README.md>`_)
-4. ``cd ${IMAGE_BASE}/s4_apps``
-5. ``tar xzf ${SOURCE_BASE}/examples/speech01/target/speech01-*.tar.gz``
-6. ``cd ../bin``
-7. start S4: ``s4_start.sh &``
-8. Pipe the first ten lines of a sample input file into the load generator:
+1. Set up S4 according to :ref:`Set Up S4 <getting_started_set_up>`
+2. Remove any extraneous applications: ``rm -fr $S4_IMAGE/s4-apps/*``
+3. Copy the application into :file:`s4-apps`: ``cp -r $S4_IMAGE/s4-example-apps/s4-example-speech01 $S4_IMAGE/s4-apps/``
+4. start S4: ``$S4_IMAGE/scripts/start-s4.sh &``
+5. start the adapter:
 
 .. code-block:: bash
 
-  head -10 ${SOURCE_BASE}/examples/testinput/speeches.txt | \
-  generate_load.sh -x -r 2 -u ../s4_apps/speech01/lib/speech01-*.jar -
+   $S4_IMAGE/scripts/run-client-adapter.sh -s client-adapter \
+   -g s4 -x -d $S4_IMAGE/s4-core/conf/default/client-stub-conf.xml &
+
+6. Pipe the first ten lines of a sample input file into the load generator:
+
+.. code-block:: bash
+
+  head -10 $S4_IMAGE/s4-example-testinput/speeches.txt | \
+  sh $S4_IMAGE/s4-tools-loadgenerator/scripts/generate-load.sh -r 2 -
   
 This command will emit events at roughly 2 events per second (as specified by ``-r 2``).
 

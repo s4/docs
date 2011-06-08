@@ -16,7 +16,8 @@ Build
 * Clone examples to a source directory (``<source_base>``)
 
   * ``cd <source_base>``
-  * ``git clone https://github.com/s4/examples.git``
-* ``cd examples/twittertopiccount``
-* Build (follow instructions in `README <http://github.com/s4/examples/blob/master/twittertopiccount/README.md>`_)
-* Locate the sample application tarball: ``ls -tl target/twittertopiccount-*.tar.gz``
+  * ``git clone git://github.com/s4/twittertopiccount.git``
+* ``cd twittertopiccount``
+* ``./gradlew install``
+* Deploy the application: ``gradlew deploy``
+* ``export TWIT_LISTENER=`pwd```

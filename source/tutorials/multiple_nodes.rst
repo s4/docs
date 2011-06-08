@@ -3,15 +3,15 @@
 Running S4 with Multiple Nodes
 ==============================
 
-This document describes how to run an S4 cluster with more than one node. This document assumes you are running S4 in red button mode (i.e., running without a cluster manager like Zookeeper).
+This document describes how to run an S4 cluster with more than one node. This document assumes you are running S4 with the default configuration (i.e., in redbutton mode, that is running without a cluster manager like Zookeeper).
 
-This document also assumes that the IMAGE_BASE environment variable contains the location of your s4 runnable image. If you set up the runnable image according to :doc:`/tutorials/getting_started`, you would set the variable to ``${HOME}/s4image``.
+This document also assumes that you set up S4 according to :ref:`Set Up S4 <getting_started_set_up>`.
 
 Quick cluster configuration overview
 ------------------------------------
 A cluster configuration file describes the nodes in an S4 node cluster, an adapter cluster, or both. The communication layer uses this configuration to assign tasks and find nodes.
 
-The default configuration can be found at ``${IMAGE_BASE}/s4_core/conf/redbutton/clusters.xml``:
+The default configuration can be found at ``s4-image/s4-core/conf/default/clusters.xml``:
 
 .. code-block:: xml
   :linenos:
@@ -64,10 +64,10 @@ Under each cluster element are node elements. Each node element describes a node
 Adding another S4 node
 ----------------------
 
-Lets say you want to run two S4 nodes on your machine. First, create a new configuration directory:
+Lets say you want to run two S4 nodes on your machine. First, create a new configuration directory (the instructions below assume your current directory is :file:`s4-image`):
 
-* ``cd ${IMAGE_BASE}/s4_core/conf``
-* ``cp -r redbutton myconfig``
+* ``cd s4_core/conf``
+* ``cp -r default myconfig``
 
 Edit ``myconfig/clusters.xml`` and add a new S4 node: 
 
@@ -101,10 +101,11 @@ Since both nodes will run on the same machine (``localhost``), make sure the two
 
 Now run the sample application, this time using your new configuration:
 
-* ``cd ${IMAGE_BASE}/bin``
-* clean out your logs directory (to better demonstrate the example): ``rm -fr ../s4_core/logs/*``
-* Start the first S4 node and tell it to use your configuration: ``s4_start.sh myconfig &``
-* Start the second S4 node, also using your configuration: ``s4_start.sh myconfig &``
+* Kill any previous instance of S4 you might have running
+* Remove any extraneous applications: ``rm -fr s4-apps/*``
+* Clean out your logs directory: ``rm s4-core/logs/s4-core/*``
+* Start the first S4 node and tell it to use your configuration: ``./scripts/start-s4.sh myconfig &``
+* Start the second S4 node, also using your configuration: ``./scripts/start-s4.sh myconfig &``
 
   * Note: When running multiple nodes in red button mode on a single machine, always start them from the same ``${IMAGE_BASE}/bin``
   * Also note: If you start a third S4 node, its communication layer will not find an available task. Therefore, it will just wait.
@@ -112,16 +113,14 @@ Now run the sample application, this time using your new configuration:
 
 .. code-block:: bash
 
-  run_adapter.sh -u ../s4_apps/twittertopiccount/lib/twittertopiccount-*.jar \
-  -d ../s4_apps/twittertopiccount/adapter_conf.xml myconfig &
-
-If you get an exception, make sure you have the latest version of ``run_adapter.sh``.
+ ./scripts/run-adapter.sh -u s4-apps/s4-example-twittertopiccount/lib/s4-example-twittertopiccount-*.jar \
+ -d s4-apps/s4-example-twittertopiccount/adapter-conf.xml myconfig &
 
 * Check that events are getting evenly distributed amongst the two nodes:
 
 .. code-block:: bash
 
-  find ../s4_core/logs/s4_core -name "s4_core_*.log" -print -exec sh -c 'grep -i "count by" {} | tail -4' \; 
+  find s4-core/logs/s4-core -name "s4-core_*.log" -print -exec sh -c 'grep -i "count by" {} | tail -4' \; 
 
 You should see something like the following::
 
@@ -184,7 +183,7 @@ Let's run the nodes on three machines:
   * Change the <machine> element for partition 1 from ``localhost`` to ``machine2``
   * Change the <machine> element for the adapter from ``localhost`` to ``machine3``
 * Save your changes
-* Copy your ``${IMAGE_BASE}`` directory to all three machines (but only those machines specified in the configuration).
+* Copy your :file:`s4-image` directory to all three machines (but only those machines specified in the configuration).
 * Start an S4 node on ``machine1`` (as above).
 * Start an S4 node on ``machine2`` (as above).
 * Start the adapter on ``machine3`` (as above).

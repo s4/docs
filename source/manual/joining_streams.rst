@@ -277,22 +277,24 @@ This section assumes you have first built the *speech01* example application acc
 
 To run the *speech02* example, do the following:
 
-#. ``cd ${SOURCE_BASE}/examples/speech02``
-#. Build (follow instructions in `README <https://github.com/s4/examples/blob/master/speech02/README.md>`_)
-#. ``cd ${IMAGE_BASE}/s4_apps``
-#. remove any apps you might already have in the image: ``rm -fr ${IMAGE_BASE}/s4_apps/*``
-#. ``tar xzf ${SOURCE_BASE}/examples/speech02/target/speech02-*.tar.gz``
-#. ``cd ../bin``
-#. kill any previous instance of S4 you might have running
-#. start S4: ``s4_start.sh &``
-#. Pipe the first ten lines of a sample input file into the load generator:
+1. Kill any previous instance of S4 you might have running
+2. Remove any extraneous applications: ``rm -fr $S4_IMAGE/s4-apps/*``
+3. Clean out your logs directory: ``rm $S4_IMAGE/s4-core/logs/s4-core/*``
+4. Copy the application into :file:`s4-apps`: ``cp -r $S4_IMAGE/s4-example-apps/s4-example-speech02 $S4_IMAGE/s4-apps/`` 
+5. start S4: ``$S4_IMAGE/scripts/start-s4.sh &``
+6. start the adapter:
 
 .. code-block:: bash
 
-  head -10 ${SOURCE_BASE}/examples/testinput/speeches.txt | \
-  generate_load.sh -x -r 2 -u ../s4_apps/speech02/lib/speech01-0.0.0.1.jar -
+   $S4_IMAGE/scripts/run-client-adapter.sh -s client-adapter \
+   -g s4 -x -d $S4_IMAGE/s4-core/conf/default/client-stub-conf.xml &
 
-It is correct that the command refers to the *speech01* jar in the *speech02* application. *speech02* has no code of its own, just a configuration. It entirely depends on code from the platform and from *speech01*.
+7. Pipe the first ten lines of a sample input file into the load generator:
+
+.. code-block:: bash
+
+  head -10 $S4_IMAGE/s4-example-testinput/speeches.txt | \
+  sh $S4_IMAGE/s4-tools-loadgenerator/scripts/generate-load.sh -r 2 -
   
 This command will emit events at roughly 2 events per second (as specified by ``-r 2``).
 
