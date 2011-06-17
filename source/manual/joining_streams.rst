@@ -281,7 +281,7 @@ To run the *speech02* example, do the following:
 2. Remove any extraneous applications: ``rm -fr $S4_IMAGE/s4-apps/*``
 3. Clean out your logs directory: ``rm $S4_IMAGE/s4-core/logs/s4-core/*``
 4. Copy the application into :file:`s4-apps`: ``cp -r $S4_IMAGE/s4-example-apps/s4-example-speech02 $S4_IMAGE/s4-apps/`` 
-5. start S4: ``$S4_IMAGE/scripts/start-s4.sh &``
+5. start S4: ``$S4_IMAGE/scripts/start-s4.sh -r client-adapter &``
 6. start the adapter:
 
 .. code-block:: bash

@@ -16,6 +16,19 @@ Set Up S4
 * Download and untar the binary image:
    * ``mkdir s4image``
    * ``cd s4image``
+   * ``export S4_IMAGE=`pwd```
+   * `Download <http://s4.github.com/core/target/s4_core-0.2.1.0.tar.gz>`_ the S4 core tarball into the ``s4image`` directory.
+   * ``tar xzf s4-core-*.tar.gz``
+* Alternatively, you can build the binaries yourself:
+   * follow the instructions at :doc:`build S4 core </tutorials/build_core>`.
+   * ``cd build/s4-image/``
+
+Set Up the Example Application
+------------------------------
+
+* Download and untar the binary image:
+   * ``mkdir s4image``
+   * ``cd s4image``
    * `Download <http://s4.github.com/core/target/s4_core-0.2.1.0.tar.gz>`_ the S4 core tarball into the ``s4image`` directory.
    * ``tar xzf s4-core-*.tar.gz``
 * Alternatively, you can build the binaries yourself:
@@ -25,12 +38,12 @@ Set Up S4
 Run
 ---
 
-You should see a sample application under ``$S4_IMAGE/s4-apps`` called ``s4-example-twittertopiccount``. This sample application listens to the twitter Spritzer and keeps track of the top 10 hash tags. You can try it as follows:
+You should see a sample application under ``$S4_IMAGE/s4-apps`` called ``twittertopiccount``. This sample application listens to the Twitter Spritzer and keeps track of the top 10 hash tags. You can try it as follows:
 
 * Set the environment variable ``JAVA_HOME``. S4 scripts expect to find the java command at ``${JAVA_HOME}/bin``.
 * Start an S4 node:
 
-  ``$S4_IMAGE/scripts/start-s4.sh &``
+  ``$S4_IMAGE/scripts/start-s4.sh -r client-adapter &``
 
 This will print out some initial set up messages. The setup messages should end with something like this::
 
@@ -61,7 +74,7 @@ The adapter will adapt Twitter status messages into events expected by the sampl
 
 .. code-block:: bash
 
-   $TWIT_LISTENER/build/install/twitter_feed_listener/bin/twitter_feed_listener <your-twitter-user> <your-twitter-password>
+   $TWIT_LISTENER/bin/twitter_feed_listener <your-twitter-user> <your-twitter-password> &
 
 To check the current top 10 hash tags, look in this file: :file:`/tmp/top_n_hashtags`. Note, twittertopiccount will not include any hash tag that has less that 4 references. Therefore, it might take a few minutes for this file to appear.
 

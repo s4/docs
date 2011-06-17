@@ -19,4 +19,12 @@ Build
 * ``./gradlew allImage``
 * ``cd build/s4-image/``
 * ``export S4_IMAGE=`pwd```
+* ``chmod u+x $S4_IMAGE/scripts/*``
+* ``chmod u+x $S4_IMAGE/s4-driver/scripts/*``
+
+If you want to build a specific release of S4, do the following before running ``./gradlew allImage``:
+
+``git checkout tags/<tagname>``
+
+Where <tagname> specifies the tag for a release, e.g. v0.3.0.
 

@@ -7,85 +7,45 @@ S4 Client Usage Guide
 In this guide, we will look at some examples of using the client API to
 communicate with the S4 cluster.
 
-Obtaining Drivers
+Getting Set Up
 -----------------
 
-Clone the repository:
+To run the examples, you need a usable S4 image that contains the Speech02 sample application. See :ref:`here <building_and_running_speech02>`.
+
+Set environment variables:
 
 .. code-block:: bash
 
-  cd ${SOURCE_BASE}
-  git clone git://github.com/s4/driver.git
-
-Alternatively, you can download the source as an archive file:
-
-1. Browse to https://github.com/s4/driver
-2. Click on Downloads button
-3. Select "Download .tar.gz"
-4. Download to your ``${SOURCE_BASE}`` directory
-5. ``tar xzf driver s4-driver-*.tar.gz``
-6. rename the directory to the expected name: ``find . -name "s4-driver*" | grep -v tar | xargs -J % mv % driver``
-
-To run the examples, you need a usable S4 image that contains the Speech02 sample application. See :ref:`here <building_and_running_speech02>`. Note: When creating your S4 image, follow those instructions for building S4 from latest source.
-
-Set environment variables.
-
-===============  =======================================================================================================================================================
-variable name    value
-===============  =======================================================================================================================================================
-``IMAGE_BASE``   the base directory of your runnable image (this would be :file:`${HOME}/s4image` if you followed the steps in :doc:`/tutorials/getting_started`)
-``PERLLIB``      ${SOURCE_BASE}/driver/perl/src
-``PYTHONPATH``   ${SOURCE_BASE}/driver/python
-``JAVA_HOME``    the base directory of your Java installation. You need to set this variable if you plan to run the Java example.
-===============  =======================================================================================================================================================
-
-For example:
-
-.. code-block:: bash
-
-  export PYTHONPATH=${SOURCE_BASE}/driver/python
-  export JAVA_HOME=/System/Library/Java/JavaVirtualMachines/1.6.0.jdk/Contents/Home
+	export PYTHONPATH=${S4_IMAGE}/s4-driver/lib/python
+	export PERLLIB=${S4_IMAGE}/s4-driver/lib/perl
 
 Injecting Events with a Perl Client
 -----------------------------------
 
-We will use the ``speech02`` application.
-
-Packages:
-
-- ``s4_core-0.3.0.0``
-- ``speech01-0.0.0.1``
-- ``speech02-0.0.0.2``
-
-
-As before, create an image. Let us call the image folder ``$IMAGE_BASE``.
-
 1. Start the S4 cluster, specifying the name of the client adapter cluster
    (``-r``)
 
-   .. code-block:: bash
+.. code-block:: bash
 
-     cd $IMAGE_BASE
-     ./bin/s4_start.sh -r client-adapter redbutton &
+   $S4_IMAGE/scripts/start-s4.sh -r client-adapter &
 
 2. Start the client adapter
 
-   .. code-block:: bash
+.. code-block:: bash
 
-     ./bin/run_client_adapter.sh -s client-adapter -g s4 \
-     -x -d s4_core/conf/redbutton/client_stub_conf.xml &
+   $S4_IMAGE/scripts/run-client-adapter.sh -s client-adapter \
+   -g s4 -x -d $S4_IMAGE/s4-core/conf/default/client-stub-conf.xml &
 
 3. Inject events
 
-   .. code-block:: bash
+.. code-block:: bash
 
-     cd ${SOURCE_BASE}/examples/testinput
+	perl  $S4_IMAGE/s4-driver/scripts/inject.pl RawSpeech \
+	io.s4.example.speech01.Speech < $S4_IMAGE/s4-example-testinput/speech.in 
 
-     perl ../../driver/examples/inject.pl RawSpeech \
-         io.s4.example.speech01.Speech < speech.in
+	perl  $S4_IMAGE/s4-driver/scripts/inject.pl RawSentence \
+	io.s4.example.speech01.Sentence < $S4_IMAGE/s4-example-testinput/sentence.in
 
-     perl ../../driver/examples/inject.pl RawSentence \
-         io.s4.example.speech01.Sentence < sentence.in
 
 4. As in the ``speech02`` tutorial, observe that messages are printed by the
    event catcher PE.
@@ -93,72 +53,50 @@ As before, create an image. Let us call the image folder ``$IMAGE_BASE``.
 Injecting Events with a Java Client
 -----------------------------------
 
-Again, we will use the ``speech02`` application.
-
-Packages:
-
-- ``s4_core-0.3.0.0``
-- ``speech01-0.0.0.1``
-- ``speech02-0.0.0.2``
-
-1. Build the driver
-
-   1. ``cd ${SOURCE_BASE}/driver/java``
-   2. ``mvn install``
-
-  
-2. Build the sample client
-
-   1. ``cd ../examples/inject_java``
-   2. ``mvn assembly:assembly``
-
-  
-3. Start the S4 cluster, specifying the name of the client adapter cluster
+1. Start the S4 cluster, specifying the name of the client adapter cluster
    (``-r``)
 
-   .. code-block:: bash
+.. code-block:: bash
 
-     cd $IMAGE_BASE
-     ./bin/s4_start.sh -r client-adapter redbutton &
+   $S4_IMAGE/scripts/start-s4.sh -r client-adapter &
 
-4. Start the client adapter
+2. Start the client adapter
 
-   .. code-block:: bash
+.. code-block:: bash
 
-     ./bin/run_client_adapter.sh -s client-adapter -g s4 \
-     -x -d s4_core/conf/redbutton/client_stub_conf.xml &
+   $S4_IMAGE/scripts/run-client-adapter.sh -s client-adapter \
+   -g s4 -x -d $S4_IMAGE/s4-core/conf/default/client-stub-conf.xml &
 
-5. Inject events
+3. Inject events
 
-   .. code-block:: bash
+.. code-block:: bash
 
-     cd ${SOURCE_BASE}/driver/examples/inject_java/target/inject_java-*.dir/bin
+	$S4_IMAGE/s4-driver/scripts/inject.sh localhost 2334 RawSpeech \
+	io.s4.example.speech01.Speech < $S4_IMAGE/s4-example-testinput/speech.in 
 
-     ./inject.sh localhost 2334 RawSpeech io.s4.example.speech01.Speech < \
-         ${SOURCE_BASE}/examples/testinput/speech.in
+	$S4_IMAGE/s4-driver/scripts/inject.sh localhost 2334 RawSentence \
+	io.s4.example.speech01.Sentence < $S4_IMAGE/s4-example-testinput/sentence.in
 
-     ./inject.sh localhost 2334 RawSentence io.s4.example.speech01.Sentence < \
-	     ${SOURCE_BASE}/examples/testinput/sentence.in
-
-6. As in the ``speech02`` tutorial, observe that messages are printed by the
+4. As in the ``speech02`` tutorial, observe that messages are printed by the
    event catcher PE.
 
 Receiving Events
 ----------------
 
-1. Start a reader client.
+1. Follow same steps as above to start S4 server and client adapter.
+2. Start a reader client:
 
-   .. code-block:: bash
+.. code-block:: bash
 
-     perl ${SOURCE_BASE}/driver/examples/read.pl \
-        '{
-           readMode => "select", 
-           readInclude => ["SentenceJoined"]
-         }'
+   perl $S4_IMAGE/s4-driver/scripts/read.pl  \
+     '{ 
+         readMode => "select",
+         readInclude => ["SentenceJoined"]
+       }'
 
    This client should connect and print a message something like this:
 
-   .. code-block:: perl
+.. code-block:: perl
 
       --------------------------------------------------------------------------------
       Initialized: $VAR1 = bless( {
@@ -183,20 +121,17 @@ Receiving Events
 
 2. In a different window, inject messages like in the previous section.
 
-   .. code-block:: bash
+.. code-block:: bash
 
-     cd ${SOURCE_BASE}/examples/testinput
+	perl  $S4_IMAGE/s4-driver/scripts/inject.pl RawSpeech \
+	io.s4.example.speech01.Speech < $S4_IMAGE/s4-example-testinput/speech.in 
 
-     perl ../../driver/examples/inject.pl RawSpeech \
-         io.s4.example.speech01.Speech < speech.in
-
-     perl ../../driver/examples/inject.pl RawSentence \
-         io.s4.example.speech01.Sentence < sentence.in
-
+	perl  $S4_IMAGE/s4-driver/scripts/inject.pl RawSentence \
+	io.s4.example.speech01.Sentence < $S4_IMAGE/s4-example-testinput/sentence.in
 
 3. The reader client prints joined sentence events.
 
-   .. code-block:: perl
+.. code-block:: perl
 
       $VAR1 = {
                 'object' => '{"id":12000001,"speechId":12000000,"text":"Four score and
@@ -228,8 +163,8 @@ Receiving Events
 Request-Response
 ----------------
 
-It is possible to send requests into the S4 cluster and receive repsonses in
-return. In general, one request can result in zero, one, or more repsonses. The
+It is possible to send requests into the S4 cluster and receive responses in
+return. In general, one request can result in zero, one, or more responses. The
 client application is expected to use a timed batch receive method, or some
 emulation of it.
 
@@ -358,7 +293,7 @@ The JSON representation of the corresponding prototype request is:
   }
 
 The ``driver`` repository contains a script to send requests and receive
-responses at ``${SOURCE_BASE}/driver/examples/request.py``::
+responses at ``$S4_IMAGE/s4-driver/scripts/request.py``::
 
   import io.s4.client.driver
   import pprint;
@@ -395,11 +330,8 @@ Use this as follows:
 
 .. code-block:: bash
 
-  python ${SOURCE_BASE}/driver/examples/request.py \
-         '#sentenceJoinPE' \
-         'io.s4.message.PrototypeRequest' < \
-         ${SOURCE_BASE}/examples/testinput/proto-query
-
+   python $S4_IMAGE/s4-driver/scripts/request.py '#sentenceJoinPE' \
+   'io.s4.message.PrototypeRequest' < $S4_IMAGE/s4-example-testinput/proto-query 
 
 The resulting session starts with something like the following::
 
@@ -414,7 +346,7 @@ The resulting session starts with something like the following::
   Sending all requests...
 
 
-See the protocol in action. In particular, the repsonse object (pretty
+See the protocol in action. In particular, the response object (pretty
 formatted) is::
 
   {
@@ -446,7 +378,7 @@ Example 2
 ^^^^^^^^^
 
 Example request to a single PE from
-``${SOURCE_BASE}/examples/testinput/proto-query``
+``$S4_IMAGE/s4-example-testinput/proto-query``
 
 .. code-block:: javascript
 
@@ -457,10 +389,8 @@ Send this to the S4 cluster using:
 
 .. code-block:: bash
 
-  python ${SOURCE_BASE}/driver/examples/request.py \
-         '#sentenceJoinPE' \
-         'io.s4.message.SinglePERequest' < \
-         ${SOURCE_BASE}/examples/testinput/pe-query
+   python $S4_IMAGE/s4-driver/scripts/request.py '#sentenceJoinPE' \
+   'io.s4.message.SinglePERequest' < $S4_IMAGE/s4-example-testinput/pe-query
 
 
 The input contains two queries. The two corresponding responses

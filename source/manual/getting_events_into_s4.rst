@@ -88,7 +88,7 @@ To run the *speech01* example, do the following:
 1. Set up S4 according to :ref:`Set Up S4 <getting_started_set_up>`
 2. Remove any extraneous applications: ``rm -fr $S4_IMAGE/s4-apps/*``
 3. Copy the application into :file:`s4-apps`: ``cp -r $S4_IMAGE/s4-example-apps/s4-example-speech01 $S4_IMAGE/s4-apps/``
-4. start S4: ``$S4_IMAGE/scripts/start-s4.sh &``
+4. start S4: ``$S4_IMAGE/scripts/start-s4.sh -r client-adapter &``
 5. start the adapter:
 
 .. code-block:: bash

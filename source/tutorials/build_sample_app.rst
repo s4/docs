@@ -19,5 +19,6 @@ Build
   * ``git clone git://github.com/s4/twittertopiccount.git``
 * ``cd twittertopiccount``
 * ``./gradlew install``
-* Deploy the application: ``gradlew deploy``
+* Deploy the application: ``./gradlew deploy``
+* ``cd build/install/twitter_feed_listener``
 * ``export TWIT_LISTENER=`pwd```
