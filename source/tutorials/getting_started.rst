@@ -27,9 +27,9 @@ Set Up the Example Application
 ------------------------------
 
 * Download and untar the binary image:
-   * ``mkdir s4image``
-   * ``cd s4image``
-   * `Download <http://s4.github.com/core/target/s4_core-0.2.1.0.tar.gz>`_ the S4 core tarball into the ``s4image`` directory.
+   * ``mkdir tflimage``
+   * ``cd tflimage``
+   * `Download <http://s4.github.com/??>`_ the sample application tarball into the ``tflimage`` directory.
    * ``tar xzf s4-core-*.tar.gz``
 * Alternatively, you can build the binaries yourself:
    * follow the instructions at :doc:`build S4 core </tutorials/build_core>`.

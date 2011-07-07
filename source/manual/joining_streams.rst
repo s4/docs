@@ -1,7 +1,7 @@
 .. index:: application, example, speech02, PE prototype, keyed PE, key-less PE, join, TTL
 
 Joining and Rerouting Streams
-===============
+=============================
 
 Introduction
 ------------
