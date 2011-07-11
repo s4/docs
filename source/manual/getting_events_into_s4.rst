@@ -80,8 +80,8 @@ Key-less PEs usually serve as entry point PEs: That is, the PEs that receive eve
 
 More about keys in the discussion about :doc:`/manual/joining_streams`.
 
-Building and running the *speech01* example
--------------------------------------------
+Set up and run *speech01* example
+---------------------------------
 
 To run the *speech01* example, do the following:
 
@@ -94,7 +94,7 @@ To run the *speech01* example, do the following:
 .. code-block:: bash
 
    $S4_IMAGE/scripts/run-client-adapter.sh -s client-adapter \
-   -g s4 -x -d $S4_IMAGE/s4-core/conf/default/client-stub-conf.xml &
+   -g s4 -d $S4_IMAGE/s4-core/conf/default/client-stub-conf.xml &
 
 6. Pipe the first ten lines of a sample input file into the load generator:
 

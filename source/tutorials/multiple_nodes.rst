@@ -11,7 +11,7 @@ Quick cluster configuration overview
 ------------------------------------
 A cluster configuration file describes the nodes in an S4 node cluster, an adapter cluster, or both. The communication layer uses this configuration to assign tasks and find nodes.
 
-The default configuration can be found at ``s4-image/s4-core/conf/default/clusters.xml``:
+The default configuration can be found at ``$S4_IMAGE/s4-core/conf/default/clusters.xml``:
 
 .. code-block:: xml
   :linenos:
@@ -20,20 +20,23 @@ The default configuration can be found at ``s4-image/s4-core/conf/default/cluste
     <cluster name="s4" type="s4" mode="unicast">
       <node>
         <partition>0</partition>
-        <machine>localhost</machine> <!-- used only in red button mode -->
+        <machine>localhost</machine>
         <port>5077</port>
         <taskId>s4node-0</taskId>
       </node>
     </cluster>
-    <cluster name="s4" type="adapter" mode="unicast">
+    <cluster name="client-adapter" type="s4" mode="unicast">
       <node>
+        <partition>0</partition>
         <machine>localhost</machine> <!-- used only in red button mode -->
-        <taskId>adapter-0</taskId>
+        <taskId>client-adapter-0</taskId>
+        <port>6077</port>
       </node>
     </cluster>
   </config>
 
-This configuration file describes two clusters: one s4 node cluster and one adapter cluster. Both clusters contain only a single node. Both clusters use unicast for inter-node communication. Both clusters are named ``s4``: It's OK for two clusters to have the same name as long as they are of different types.
+
+This configuration file describes three clusters: one s4 node cluster and one client adapter cluster. Both clusters contain only a single node. Both clusters use unicast for inter-node communication.
 
 Under each cluster element are node elements. Each node element describes a node in the cluster. The node element has the following child elements:
 
@@ -43,8 +46,6 @@ Under each cluster element are node elements. Each node element describes a node
 
   All partitions 0-*n* should be represented in the configuration, where *n* is the ((number of nodes)-1).
 
-  This element is valid for S4 nodes only.
-
 * **machine**
   
   The machine on which the node will run.
@@ -53,11 +54,11 @@ Under each cluster element are node elements. Each node element describes a node
 
 * **port**
 
-  The port on which the S4 node listens. This should not be specified for adapter nodes.
+  The port on which the S4 node listens. This is relevant for client adapter nodes as well, since an client adapter can receive events from an S4 cluster.
 
 * **taskId**
 
-  This is a string that names the task taken by the S4 or adapter node. For an S4 node, it is usually s4node-*partition*, but any string will do. The names should be unique within a cluster.
+  This is a string that names the task taken by the S4 node. For an S4 node, it is usually s4node-*partition*, but any string will do. The names should be unique within a cluster.
 
   In red button mode, this string is used to form a lock filename. Therefore, you should use only characters that are valid for your filesystem.
 
@@ -66,14 +67,13 @@ Adding another S4 node
 
 Lets say you want to run two S4 nodes on your machine. First, create a new configuration directory (the instructions below assume your current directory is :file:`s4-image`):
 
-* ``cd s4_core/conf``
-* ``cp -r default myconfig``
+* ``cp -r $S4_IMAGE/s4-core/conf/default $S4_IMAGE/s4-core/conf/myconfig``
 
-Edit ``myconfig/clusters.xml`` and add a new S4 node: 
+Edit ``$S4_IMAGE/s4-core/conf/myconfig/clusters.xml`` and add a new S4 node: 
 
 .. code-block:: xml
   :linenos:
-
+  
   <config version="-1">
     <cluster name="s4" type="s4" mode="unicast">
       <node>
@@ -89,10 +89,12 @@ Edit ``myconfig/clusters.xml`` and add a new S4 node:
         <taskId>s4node-1</taskId>
       </node>
     </cluster>
-    <cluster name="s4" type="adapter" mode="unicast">
+    <cluster name="client-adapter" type="s4" mode="unicast">
       <node>
+        <partition>0</partition>
         <machine>localhost</machine> <!-- used only in red button mode -->
-        <taskId>adapter-0</taskId>
+        <taskId>client-adapter-0</taskId>
+        <port>6077</port>
       </node>
     </cluster>
   </config>
@@ -102,25 +104,31 @@ Since both nodes will run on the same machine (``localhost``), make sure the two
 Now run the sample application, this time using your new configuration:
 
 * Kill any previous instance of S4 you might have running
-* Remove any extraneous applications: ``rm -fr s4-apps/*``
-* Clean out your logs directory: ``rm s4-core/logs/s4-core/*``
-* Start the first S4 node and tell it to use your configuration: ``./scripts/start-s4.sh myconfig &``
-* Start the second S4 node, also using your configuration: ``./scripts/start-s4.sh myconfig &``
+* Clean out your logs directory: ``rm $S4_IMAGE/s4-core/logs/s4-core/*``
+* Start the first S4 node and tell it to use your configuration: ``$S4_IMAGE/scripts/start-s4.sh myconfig &``
+* Start the second S4 node, also using your configuration: ``$S4_IMAGE/scripts/start-s4.sh myconfig &``
 
-  * Note: When running multiple nodes in red button mode on a single machine, always start them from the same ``${IMAGE_BASE}/bin``
+  * Note: When running multiple nodes in red button mode on a single machine, always start them from the same ``$S4_IMAGE/scripts``
   * Also note: If you start a third S4 node, its communication layer will not find an available task. Therefore, it will just wait.
 * Start the adapter and tell it to use your configuration:
 
 .. code-block:: bash
 
- ./scripts/run-adapter.sh -u s4-apps/s4-example-twittertopiccount/lib/s4-example-twittertopiccount-*.jar \
- -d s4-apps/s4-example-twittertopiccount/adapter-conf.xml myconfig &
+ $S4_IMAGE/scripts/run-client-adapter.sh -s client-adapter \
+   -g s4 -d $S4_IMAGE/s4-core/conf/default/client-stub-conf.xml myconfig &
+
+
+* Start the Twitter feed listener. Replace <your-twitter-user> and <your-twitter-password> with a valid Twitter account userid and password:
+
+.. code-block:: bash
+
+   $TWIT_LISTENER/bin/twitter_feed_listener <your-twitter-user> <your-twitter-password> &
 
 * Check that events are getting evenly distributed amongst the two nodes:
 
 .. code-block:: bash
 
-  find s4-core/logs/s4-core -name "s4-core_*.log" -print -exec sh -c 'grep -i "count by" {} | tail -4' \; 
+  find $S4_IMAGE/s4-core/logs/s4-core -name "s4-core_*.log" -print -exec sh -c 'grep -i "count by" {} | tail -4' \; 
 
 You should see something like the following::
 
@@ -164,10 +172,12 @@ To spread the nodes across multiple machines, specify the machine names in the `
         <taskId>s4node-1</taskId>
       </node>
     </cluster>
-    <cluster name="s4" type="adapter" mode="unicast">
+    <cluster name="client-adapter" type="s4" mode="unicast">
       <node>
-        <machine>machine3.s4.io</machine> <!-- used only in red button mode -->
-        <taskId>adapter-0</taskId>
+        <partition>0</partition>
+        <machine>machine3.s4.io</machine>  <!-- used only in red button mode -->
+        <taskId>client-adapter-0</taskId>
+        <port>6077</port>
       </node>
     </cluster>
   </config>
@@ -176,7 +186,7 @@ In this example, the S4 node for partition 0 will run on ``machine1.s4.io``. The
 
 Let's run the nodes on three machines:
 
-* Choose three machines. I will call them ``machine1``, ``machine2``, and ``machine3``. You should use the actual machine names. If you have only 2 available machines, make ``machine2`` and ``machine3`` the same machine. Make sure each machines can talk to each other.
+* Choose three machines. I will call them ``machine1``, ``machine2``, and ``machine3``. You should use the actual machine names. If you have only 2 available machines, make ``machine2`` and ``machine3`` the same machine. Make sure each machine has network access to the other two.
 * Edit ``myconfig/clusters.xml``
 
   * Change the <machine> element for partition 0 from ``localhost`` to ``machine1``

@@ -8,7 +8,5 @@ Tutorials
    :maxdepth: 2
 
    tutorials/getting_started
-   tutorials/build_core
-   tutorials/build_sample_app
    tutorials/multiple_nodes
 

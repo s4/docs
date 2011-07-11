@@ -16,6 +16,7 @@ Build
   * ``cd <source_base>``
   * ``git clone https://github.com/s4/s4.git``
 * ``cd s4``
+* ``git checkout tags/testtag``
 * ``./gradlew allImage``
 * ``cd build/s4-image/``
 * ``export S4_IMAGE=`pwd```

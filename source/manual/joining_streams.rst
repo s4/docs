@@ -270,10 +270,10 @@ Because the PE is key-less, there is at most one instance per S4 node:
 
 .. _building_and_running_speech02:
 
-Building and running the *speech02* example
+Running the *speech02* example
 -------------------------------------------
 
-This section assumes you have first built the *speech01* example application according to :doc:`/manual/getting_events_into_s4`.
+This section assumes you have first built the *speech01* and *speech02* example applications (this will happen if you set up S4 according to :ref:`Set Up S4 <getting_started_set_up>`)
 
 To run the *speech02* example, do the following:
 
@@ -287,7 +287,7 @@ To run the *speech02* example, do the following:
 .. code-block:: bash
 
    $S4_IMAGE/scripts/run-client-adapter.sh -s client-adapter \
-   -g s4 -x -d $S4_IMAGE/s4-core/conf/default/client-stub-conf.xml &
+   -g s4 -d $S4_IMAGE/s4-core/conf/default/client-stub-conf.xml &
 
 7. Pipe the first ten lines of a sample input file into the load generator:
 

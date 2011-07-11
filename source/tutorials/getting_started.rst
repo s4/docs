@@ -13,27 +13,30 @@ The steps in this guide have been tested on:
 Set Up S4
 ---------
 
-* Download and untar the binary image:
-   * ``mkdir s4image``
-   * ``cd s4image``
-   * ``export S4_IMAGE=`pwd```
-   * `Download <http://s4.github.com/core/target/s4_core-0.2.1.0.tar.gz>`_ the S4 core tarball into the ``s4image`` directory.
-   * ``tar xzf s4-core-*.tar.gz``
-* Alternatively, you can build the binaries yourself:
-   * follow the instructions at :doc:`build S4 core </tutorials/build_core>`.
-   * ``cd build/s4-image/``
+* Clone ``s4`` to a source directory (``<source_base>``)
 
-Set Up the Example Application
+  * ``cd <source_base>``
+  * ``git clone https://github.com/s4/s4.git``
+* ``cd s4``
+* ``git checkout tags/testtag``
+* ``./gradlew allImage``
+* ``cd build/s4-image/``
+* ``export S4_IMAGE=`pwd```
+
+Set up the Example Application
 ------------------------------
 
-* Download and untar the binary image:
-   * ``mkdir tflimage``
-   * ``cd tflimage``
-   * `Download <http://s4.github.com/??>`_ the sample application tarball into the ``tflimage`` directory.
-   * ``tar xzf s4-core-*.tar.gz``
-* Alternatively, you can build the binaries yourself:
-   * follow the instructions at :doc:`build S4 core </tutorials/build_core>`.
-   * ``cd build/s4-image/``
+* Clone examples to a source directory (``<source_base>``)
+
+  * ``cd <source_base>``
+  * ``git clone git://github.com/s4/twittertopiccount.git``
+* ``cd twittertopiccount``
+* ``git checkout tags/testtag``
+* ``./gradlew install``
+* Deploy the application: ``./gradlew deploy``
+* ``cd build/install/twitter_feed_listener``
+* ``export TWIT_LISTENER=`pwd```
+
 
 Run
 ---
@@ -85,8 +88,8 @@ Troubleshooting
 
 When running in red button mode (i.e., not using Zookeeper as a cluster manager), s4 processes use lock files in the ``$S4_IMAGEs4_core/lock`` directory. If you've killed any s4 Java process with the ``KILL`` (9) signal, the lock file for that Java process may not get cleared out. Therefore, subsequent load generator or s4 node processes may hang waiting for the lock. You will see a message like the following::
 
-    Process taken up by another process lockFile:/home/robbins/s4-0.1/s4_core/lock/s4_listenerLISTEN_PROCESS_1
-    processAvailable:false
+   Process taken up by another process lockFile:/Users/robbins/github/s4/build/s4-image/scripts/../s4-core/lock/s4s4node-0
+   processAvailable:false
 
 To avoid this issue, make sure you always use kill with the default signal. If you are running the process in the foreground, :kbd:`Control-c` also works fine.
 
