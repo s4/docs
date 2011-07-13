@@ -18,10 +18,12 @@ Set Up S4
   * ``cd <source_base>``
   * ``git clone https://github.com/s4/s4.git``
 * ``cd s4``
-* ``git checkout tags/testtag``
+* ``git checkout tags/v0.3.0``
 * ``./gradlew allImage``
 * ``cd build/s4-image/``
 * ``export S4_IMAGE=`pwd```
+
+.. _getting_started_set_up_application:
 
 Set up the Example Application
 ------------------------------
@@ -31,7 +33,7 @@ Set up the Example Application
   * ``cd <source_base>``
   * ``git clone git://github.com/s4/twittertopiccount.git``
 * ``cd twittertopiccount``
-* ``git checkout tags/testtag``
+* ``git checkout tags/v0.3.0``
 * ``./gradlew install``
 * Deploy the application: ``./gradlew deploy``
 * ``cd build/install/twitter_feed_listener``

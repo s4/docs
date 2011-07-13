@@ -8,4 +8,5 @@ Cookbook
    :maxdepth: 2
 
    cookbook/using_eclipse
+   cookbook/building_your_application
    

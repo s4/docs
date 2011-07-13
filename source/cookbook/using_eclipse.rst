@@ -5,35 +5,25 @@ Using Eclipse
 
 In this cookbook, we describe how to start working on the S4 codebase using Eclipse.
 
-Building Core Classes from Sources
+Using Eclipse to edit S4 codebase
 ----------------------------------
 
-S4 is divided into 3 packages: ``core`` (Core classes), ``comm`` (Communication Layer), and ``examples`` (Example applications). Each of these packages corresponds to a github repository and can be imported into Eclipse as a separate project.
+Formatting settings
+^^^^^^^^^^^^^^^^^^^
 
-1. Check out sources for the package that you need from `github <https://github.com/organizations/s4>`_.
-
-  * Let's call the directory ``PKGDIR``
-
-2. Create Eclipse configurations in ``PKGDIR``
-
-  * ``cd PKGDIR``
-  * ``mvn eclipse:eclipse``
-
-3. Import project into Eclipse
-
-  * :menuselection:`File --> Import --> General --> Existing Projects into Workspace`
-  * Select ``PKGDIR`` from above as the "root directory" of the project.
-
-4. Set variable ``M2_REPO`` to point to the local Maven repository
-
-  * This is where Maven stores its local repository, e.g. ``~/.m2/repository``
-  * Adding a variable in Eclipse: :menuselection:`Properties --> Java Build Path --> Libraries --> Add Variable`
-
-5. Set up formatting:
+When editing the S4 codebase, use the following formatting settings:
 
   * Spaces for indentation
   * Tab width = 4
 
+Importing into eclipse
+^^^^^^^^^^^^^^^^^^^^^^
+
+  1. Clone the S4 repository and build according to :ref:`Set Up S4 <getting_started_set_up>`.
+  2. Create eclipse configuration files: ``./gradlew eclipse``.
+  3. From Eclipse, select file->import->Existing Projects into Workspace. Select the base of the newly cloned repository (e.g., :file:`<source base>/s4`) as the root directory.
+
+This will import several subprojects into your workspace.
 
 Using The S4 Image to Build an Application
 ------------------------------------------
