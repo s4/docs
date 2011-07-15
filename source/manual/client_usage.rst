@@ -34,7 +34,7 @@ Injecting Events with a Perl Client
 .. code-block:: bash
 
    $S4_IMAGE/scripts/run-client-adapter.sh -s client-adapter \
-   -g s4 -x -d $S4_IMAGE/s4-core/conf/default/client-stub-conf.xml &
+   -g s4 -d $S4_IMAGE/s4-core/conf/default/client-stub-conf.xml &
 
 3. Inject events
 
@@ -65,7 +65,7 @@ Injecting Events with a Java Client
 .. code-block:: bash
 
    $S4_IMAGE/scripts/run-client-adapter.sh -s client-adapter \
-   -g s4 -x -d $S4_IMAGE/s4-core/conf/default/client-stub-conf.xml &
+   -g s4 -d $S4_IMAGE/s4-core/conf/default/client-stub-conf.xml &
 
 3. Inject events
 

@@ -72,7 +72,7 @@ The adapter will adapt Twitter status messages into events expected by the sampl
 .. code-block:: bash
 
    $S4_IMAGE/scripts/run-client-adapter.sh -s client-adapter \
-   -g s4 -x -d $S4_IMAGE/s4-core/conf/default/client-stub-conf.xml &
+   -g s4 -d $S4_IMAGE/s4-core/conf/default/client-stub-conf.xml &
 
 
 * Start the Twitter feed listener. Replace <your-twitter-user> and <your-twitter-password> with a valid Twitter account userid and password:
