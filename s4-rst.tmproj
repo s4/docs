@@ -3,7 +3,7 @@
 <plist version="1.0">
 <dict>
 	<key>currentDocument</key>
-	<string>source/examples/twitter_topic_counter.rst</string>
+	<string>source/tutorials/build_sample_app.rst</string>
 	<key>documents</key>
 	<array>
 		<dict>
@@ -75,34 +75,6 @@
 			<key>firstVisibleLine</key>
 			<integer>0</integer>
 		</dict>
-		<key>source/examples/twitter_topic_counter.rst</key>
-		<dict>
-			<key>caret</key>
-			<dict>
-				<key>column</key>
-				<integer>0</integer>
-				<key>line</key>
-				<integer>259</integer>
-			</dict>
-			<key>firstVisibleColumn</key>
-			<integer>0</integer>
-			<key>firstVisibleLine</key>
-			<integer>250</integer>
-		</dict>
-		<key>source/index.rst</key>
-		<dict>
-			<key>caret</key>
-			<dict>
-				<key>column</key>
-				<integer>0</integer>
-				<key>line</key>
-				<integer>10</integer>
-			</dict>
-			<key>firstVisibleColumn</key>
-			<integer>0</integer>
-			<key>firstVisibleLine</key>
-			<integer>0</integer>
-		</dict>
 		<key>source/manual/dispatcher.rst</key>
 		<dict>
 			<key>caret</key>
@@ -117,28 +89,14 @@
 			<key>firstVisibleLine</key>
 			<integer>65</integer>
 		</dict>
-		<key>source/manual/overview.rst</key>
+		<key>source/tutorials/build_sample_app.rst</key>
 		<dict>
 			<key>caret</key>
 			<dict>
 				<key>column</key>
-				<integer>17</integer>
+				<integer>0</integer>
 				<key>line</key>
-				<integer>20</integer>
-			</dict>
-			<key>firstVisibleColumn</key>
-			<integer>0</integer>
-			<key>firstVisibleLine</key>
-			<integer>0</integer>
-		</dict>
-		<key>source/tutorials.rst</key>
-		<dict>
-			<key>caret</key>
-			<dict>
-				<key>column</key>
-				<integer>9</integer>
-				<key>line</key>
-				<integer>3</integer>
+				<integer>15</integer>
 			</dict>
 			<key>firstVisibleColumn</key>
 			<integer>0</integer>
@@ -150,31 +108,24 @@
 			<key>caret</key>
 			<dict>
 				<key>column</key>
-				<integer>0</integer>
+				<integer>42</integer>
 				<key>line</key>
-				<integer>53</integer>
+				<integer>18</integer>
 			</dict>
 			<key>firstVisibleColumn</key>
 			<integer>0</integer>
 			<key>firstVisibleLine</key>
-			<integer>0</integer>
+			<integer>13</integer>
 		</dict>
 	</dict>
 	<key>openDocuments</key>
 	<array>
-		<string>source/tutorials.rst</string>
-		<string>source/manual/overview.rst</string>
-		<string>source/index.rst</string>
-		<string>source/examples/twitter_topic_counter.rst</string>
-		<string>source/cookbook.rst</string>
-		<string>source/manual/dispatcher.rst</string>
-		<string>source/cookbook/using_eclipse.rst</string>
-		<string>source/examples.rst</string>
 		<string>source/tutorials/getting_started.rst</string>
+		<string>source/tutorials/build_sample_app.rst</string>
 	</array>
 	<key>showFileHierarchyDrawer</key>
 	<true/>
 	<key>windowFrame</key>
-	<string>{{207, 58}, {1020, 720}}</string>
+	<string>{{208, 70}, {1020, 720}}</string>
 </dict>
 </plist>

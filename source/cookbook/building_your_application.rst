@@ -49,8 +49,6 @@ To auto-generate eclipse project files, do the following
 
 Unless you change dependencies, you need to do this only once.
 
-Using Maven
------------
 
 
 
