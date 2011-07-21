@@ -6,7 +6,7 @@ By default, S4 runs a cluster consisting of a single node. Also by default, S4 r
 The steps in this guide have been tested on:
 
 * Red Hat Enterprise Linux 4
-* Ubuntu 10.10
+* Mac OS X Leopard
 
 .. _getting_started_set_up:
 
@@ -16,7 +16,7 @@ Set Up S4
 * Clone ``s4`` to a source directory (``<source_base>``)
 
   * ``cd <source_base>``
-  * ``git clone https://github.com/s4/s4.git``
+  * ``git clone git://github.com/s4/s4.git``
 * ``cd s4``
 * ``git checkout tags/v0.3.0``
 * ``./gradlew allImage``
