@@ -45,7 +45,7 @@ To deploy the S4 application to $S4_IMAGE/s4-apps, do the following:
 
 To auto-generate eclipse project files, do the following
 
-  ``gradle eclipse``.
+  ``gradle eclipse``
 
 Unless you change dependencies, you need to do this only once.
 
