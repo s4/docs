@@ -10,7 +10,7 @@ This document assumes that you set up S4 according to :ref:`Set Up S4 <getting_s
 Setting up your Zookeeper instance
 ----------------------------------
 
-1. Install `Zookeeper <http://zookeeper.apache.org/>`.
+1. Install `Zookeeper <http://zookeeper.apache.org/>`_.
 2. Start up your Zookeeper instance
 3. Load the clusters.xml file from the dynamic configuration into zookeeper:
 
