@@ -9,4 +9,4 @@ Tutorials
 
    tutorials/getting_started
    tutorials/multiple_nodes
-
+   tutorials/zookeeper
